@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
+import logo from "./logo.svg";
+import "./App.css";
+import { Provider } from "react-redux";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import configureStore from "./redux/store";
+import ListContainer from "./containers/ListContainer";
+import CartContainer from "./containers/CartContainer";
 
+const store = configureStore();
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/products" component={ListContainer} />
+        <Route path="/cart" component={CartContainer} />
+        <Route path="/">
+          <Redirect to="/products" />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
-export default App;
+const ReduxApp = () => (
+  <Provider store={store}>
+    <CssBaseline />
+    <App />
+  </Provider>
+);
+export default ReduxApp;
